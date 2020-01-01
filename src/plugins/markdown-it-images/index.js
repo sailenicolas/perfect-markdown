@@ -15,12 +15,12 @@ export default function (md, config) {
         }
         delete md.__image[src]
     }
-    let imagedefault = md.renderer.rules.image
+    const imagedefault = md.renderer.rules.image
     md.renderer.rules.image = function (tokens, idx, options, env, slf) {
         let styleAttr = null
         if (tokens[idx].type === 'image') {
             const start = tokens[idx].content.indexOf('=')
-            let result = parseImageSize(tokens[idx].content, start, tokens[idx].content.length)
+            const result = parseImageSize(tokens[idx].content, start, tokens[idx].content.length)
             if (result.ok) {
                 // 兼容 百分比写法
                 const W = result.width.includes('%') ? result.width : result.width + 'px'
@@ -29,7 +29,7 @@ export default function (md, config) {
             }
         }
 
-        let _attrs = tokens[idx].attrs
+        const _attrs = tokens[idx].attrs
         if (md.__image instanceof Object) {
             localAttrHandler(_attrs, styleAttr, md, tokens, idx)
         } else {
@@ -41,7 +41,7 @@ export default function (md, config) {
 
 function localAttrHandler(_attrs, styleAttr, md, tokens, idx) {
     for (let i = 0; i < _attrs.length; i++) {
-        if (_attrs[i][0] === 'src' && md.__image.hasOwnProperty(tokens[idx].attrs[i][1])) {
+        if (_attrs[i][0] === 'src' && Object.prototype.hasOwnProperty.call(md.__image, tokens[idx].attrs[i][1])) {
             _attrs.push(['rel', _attrs[i][1]])
             styleAttr && _attrs.push(styleAttr) // inject style
             _attrs[i][1] = md.__image[tokens[idx].attrs[i][1]]

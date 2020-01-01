@@ -3,8 +3,8 @@
 
 function parseNextNumber(str, pos, max) {
     let code = pos
-    let start = pos
-    let result = {
+    const start = pos
+    const result = {
         ok: false,
         pos: pos,
         value: ''
@@ -24,7 +24,7 @@ function parseNextNumber(str, pos, max) {
 
 export default function parseImageSize(str, pos, max) {
     let code = null
-    let result = {
+    const result = {
         ok: false,
         pos: 0,
         width: '',
@@ -47,7 +47,7 @@ export default function parseImageSize(str, pos, max) {
     }
 
     // parse width
-    let resultW = parseNextNumber(str, pos, max)
+    const resultW = parseNextNumber(str, pos, max)
     pos = resultW.pos
 
     // next charactor must be 'x'
@@ -57,7 +57,7 @@ export default function parseImageSize(str, pos, max) {
     pos++
 
     // parse height
-    let resultH = parseNextNumber(str, pos, max)
+    const resultH = parseNextNumber(str, pos, max)
     pos = resultH.pos
 
     result.width = resultW.value

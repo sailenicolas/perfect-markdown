@@ -1,12 +1,25 @@
 <template>
     <div class="icon-box">
-        <template v-if="customLeftToolbar">
-        </template>
+        <template v-if="customLeftToolbar"> </template>
         <template v-else>
             <slot name="toolbarLeftBefore"></slot>
-            <span v-tooltip.top-center="'加粗'" @click="clickHandler('bold', 'insert')"><i class="iconfont icon-bold"></i></span>
-            <span v-tooltip.top-center="'斜体'" @click="clickHandler('italic', 'insert')"><i class="iconfont icon-italic"></i></span>
-            <span class="menu" v-tooltip.top-center="'标题'" @click="clickHandler('title', 'menu')"  @mouseenter="showTitleMenu" @mouseleave="hideTitleMenu">
+            <span
+                v-tooltip.top-center="'Negrita'"
+                @click="clickHandler('bold', 'insert')"
+            ><i class="iconfont icon-bold"></i
+            ></span>
+            <span
+                v-tooltip.top-center="'Cursiva'"
+                @click="clickHandler('italic', 'insert')"
+            ><i class="iconfont icon-italic"></i
+            ></span>
+            <span
+                class="menu"
+                v-tooltip.top-center="'Titulo'"
+                @click="clickHandler('title', 'menu')"
+                @mouseenter="showTitleMenu"
+                @mouseleave="hideTitleMenu"
+            >
                 <i class="iconfont icon-title"></i>
                 <transition name="fade">
                     <ul
@@ -16,38 +29,100 @@
                         @mouseleave="hideTitleMenu"
                     >
                         <li @click="clickHandler('title1', 'insert')">
-                            一级标题
+                            Título Primario
                         </li>
                         <li @click="clickHandler('title2', 'insert')">
-                            二级标题
+                            Título secundario
                         </li>
                         <li @click="clickHandler('title3', 'insert')">
-                            三级标题
+                            Título terciario
                         </li>
                         <li @click="clickHandler('title4', 'insert')">
-                            四级标题
+                            Título Cuarto
                         </li>
                         <li @click="clickHandler('title5', 'insert')">
-                            五级标题
+                            Título Quinto
                         </li>
                     </ul>
                 </transition>
             </span>
-            <span v-tooltip.top-center="'下划线'" @click="clickHandler('underline', 'insert')"><i class="iconfont icon-underline"></i></span>
-            <span v-tooltip.top-center="'删除线'" @click="clickHandler('throughline', 'insert')"><i class="iconfont icon-strike"></i></span>
-            <span v-tooltip.top-center="'标记'" @click="clickHandler('mark', 'insert')"><i class="iconfont icon-mark"></i></span>
-            <span v-tooltip.top-center="'下标'" @click="clickHandler('sub', 'insert')"><i class="iconfont icon-sub"></i></span>
-            <span v-tooltip.top-center="'上标'" @click="clickHandler('sup', 'insert')"><i class="iconfont icon-sup"></i></span>
-            <span v-tooltip.top-center="'左对齐'" @click="clickHandler('left', 'insert')"><i class="iconfont icon-left"></i></span>
-            <span v-tooltip.top-center="'居中'" @click="clickHandler('center', 'insert')"><i class="iconfont icon-center"></i></span>
-            <span v-tooltip.top-center="'右对齐'" @click="clickHandler('right', 'insert')"><i class="iconfont icon-right"></i></span>
-            <span v-tooltip.top-center="'引用'" @click="clickHandler('quotation', 'insert')"><i class="iconfont icon-quotation"></i></span>
-            <span v-tooltip.top-center="'无序列表'" @click="clickHandler('ul', 'insert')"><i class="iconfont icon-ul"></i></span>
-            <span v-tooltip.top-center="'有序列表'" @click="clickHandler('ol', 'insert')"><i class="iconfont icon-ol"></i></span>
-            <span v-tooltip.top-center="'代码块'" @click="clickHandler('code', 'insert')"><i class="iconfont icon-code"></i></span>
-            <span v-tooltip.top-center="'表格'" @click="clickHandler('table', 'insert')"><i class="iconfont icon-table"></i></span>
-            <span v-tooltip.top-center="'链接'" @click="clickHandler('link', 'pop')"><i class="iconfont icon-link"></i></span>
-            <span v-tooltip.top-center="'图片'" class="menu" @click="clickHandler('image', 'menu')" @mouseenter="showImageMenu" @mouseleave="hideImageMenu">
+            <span
+                v-tooltip.top-center="'Subrayar'"
+                @click="clickHandler('underline', 'insert')"
+            ><i class="iconfont icon-underline"></i
+            ></span>
+            <span
+                v-tooltip.top-center="'Tachado'"
+                @click="clickHandler('throughline', 'insert')"
+            ><i class="iconfont icon-strike"></i
+            ></span>
+            <span
+                v-tooltip.top-center="'Marca'"
+                @click="clickHandler('mark', 'insert')"
+            ><i class="iconfont icon-mark"></i
+            ></span>
+            <span
+                v-tooltip.top-center="'Subíndice'"
+                @click="clickHandler('sub', 'insert')"
+            ><i class="iconfont icon-sub"></i
+            ></span>
+            <span
+                v-tooltip.top-center="'Superíndice'"
+                @click="clickHandler('sup', 'insert')"
+            ><i class="iconfont icon-sup"></i
+            ></span>
+            <span
+                v-tooltip.top-center="'Justificado Izquierda'"
+                @click="clickHandler('left', 'insert')"
+            ><i class="iconfont icon-left"></i
+            ></span>
+            <span
+                v-tooltip.top-center="'Justificado Centro'"
+                @click="clickHandler('center', 'insert')"
+            ><i class="iconfont icon-center"></i
+            ></span>
+            <span
+                v-tooltip.top-center="'Justificado derecha'"
+                @click="clickHandler('right', 'insert')"
+            ><i class="iconfont icon-right"></i
+            ></span>
+            <span
+                v-tooltip.top-center="'Cita'"
+                @click="clickHandler('quotation', 'insert')"
+            ><i class="iconfont icon-quotation"></i
+            ></span>
+            <span
+                v-tooltip.top-center="'Lista desordenada'"
+                @click="clickHandler('ul', 'insert')"
+            ><i class="iconfont icon-ul"></i
+            ></span>
+            <span
+                v-tooltip.top-center="'Lista ordenada'"
+                @click="clickHandler('ol', 'insert')"
+            ><i class="iconfont icon-ol"></i
+            ></span>
+            <span
+                v-tooltip.top-center="'Bloque de código'"
+                @click="clickHandler('code', 'insert')"
+            ><i class="iconfont icon-code"></i
+            ></span>
+            <span
+                v-tooltip.top-center="'Forma'"
+                @click="clickHandler('table', 'insert')"
+            ><i class="iconfont icon-table"></i
+            ></span>
+            <span
+                v-tooltip.top-center="'Enlace'"
+                @click="clickHandler('link', 'pop')"
+            ><i class="iconfont icon-link"></i
+            ></span>
+            <span
+                v-tooltip.top-center="'Imágenes'"
+                class="menu"
+                @click="clickHandler('image', 'menu')"
+                @mouseenter="showImageMenu"
+                @mouseleave="hideImageMenu"
+            >
                 <i class="iconfont icon-image"></i>
                 <transition name="fade">
                     <ul
@@ -57,15 +132,25 @@
                         @mouseleave="hideImageMenu"
                     >
                         <li @click="addImgFromLink">
-                            来自网络
+                            De la red
                         </li>
                         <li>
-                            <input type="file" accept="image/gif,image/jpeg,image/jpg,image/png,image/svg" @change="e => addImgFromLocal(e)" multiple="multiple"/>本地上传
+                            <input
+                                type="file"
+                                accept="image/gif,image/jpeg,image/jpg,image/png,image/svg"
+                                @change="e => addImgFromLocal(e)"
+                                multiple="multiple"
+                            />Sube localmente
                         </li>
                     </ul>
                 </transition>
             </span>
-            <span v-tooltip.top-center="'附件'" @click="clickHandler('file', 'menu')" @mouseenter="showFileMenu" @mouseleave="hideFileMenu">
+            <span
+                v-tooltip.top-center="'Adjunto'"
+                @click="clickHandler('file', 'menu')"
+                @mouseenter="showFileMenu"
+                @mouseleave="hideFileMenu"
+            >
                 <i class="iconfont icon-attachment"></i>
                 <transition name="fade">
                     <ul
@@ -75,67 +160,112 @@
                         @mouseleave="hideFileMenu"
                     >
                         <li @click="addFileFromLink">
-                            来自网络
+                            De la red
                         </li>
                         <li>
-                            <input type="file" accept="*" @change="e => addFileFromLocal(e)"/>本地上传
+                            <input
+                                type="file"
+                                accept="*"
+                                @change="e => addFileFromLocal(e)"
+                            />Subir localmente
                         </li>
                     </ul>
                 </transition>
             </span>
-            <span v-tooltip.top-center="'清空'" @click="clickHandler('clear', 'clear')">
+            <span
+                v-tooltip.top-center="'Limpiar'"
+                @click="clickHandler('clear', 'clear')"
+            >
                 <i class="iconfont icon-trash"></i>
             </span>
             <slot name="toolbarLeftAfter"></slot>
             <div v-show="imagePopShow" class="image-pop">
                 <div class="dialog">
                     <div class="input-box">
-                        <input placeholder="图片名称" v-model="imageName" type="text">
+                        <input
+                            placeholder="Nombre de la imagen"
+                            v-model="imageName"
+                            type="text"
+                        />
                     </div>
                     <div class="input-box">
-                        <input placeholder="图片链接" v-model="imageUrl" type="text">
+                        <input
+                            placeholder="Enlace de imagen"
+                            v-model="imageUrl"
+                            type="text"
+                        />
                     </div>
                     <div class="btn-box">
-                        <div @click="closePop('imagePopShow')">取消</div>
-                        <div class="confirm"  @click="clickHandler('image', 'insert')">确定</div>
+                        <div @click="closePop('imagePopShow')">Cancelar</div>
+                        <div
+                            class="confirm"
+                            @click="clickHandler('image', 'insert')"
+                        >
+                            Ok
+                        </div>
                     </div>
                 </div>
             </div>
             <div v-show="linkPopShow" class="link-pop">
                 <div class="dialog">
                     <div class="input-box">
-                        <input placeholder="链接名称" v-model="linkName" type="text">
+                        <input
+                            placeholder="Nombre de la imagen"
+                            v-model="imageName"
+                            type="text"
+                        />
                     </div>
                     <div class="input-box">
-                        <input placeholder="链接" v-model="linkUrl" type="text">
+                        <input
+                            placeholder="Enlace de imagen"
+                            v-model="imageUrl"
+                            type="text"
+                        />
                     </div>
                     <div class="btn-box">
-                        <div @click="closePop('linkPopShow')">取消</div>
-                        <div class="confirm" @click="clickHandler('link', 'insert')">确定</div>
+                        <div @click="closePop('imagePopShow')">Cancelar</div>
+                        <div
+                            class="confirm"
+                            @click="clickHandler('image', 'insert')"
+                        >
+                            Ok
+                        </div>
                     </div>
                 </div>
             </div>
             <div v-show="filePopShow" class="file-pop">
                 <div class="dialog">
                     <div class="input-box">
-                        <input v-model="fileName" placeholder="附件名称" type="text">
+                        <input
+                            v-model="fileName"
+                            placeholder="Nombre del archivo adjunto"
+                            type="text"
+                        />
                     </div>
                     <div class="input-box file-box">
-                        <input placeholder="附件链接" v-model="fileUrl" type="text">
+                        <input
+                            placeholder="Enlace adjunto"
+                            v-model="fileUrl"
+                            type="text"
+                        />
                     </div>
                     <div class="btn-box">
-                        <div @click="closePop('filePopShow')">取消</div>
-                        <div class="confirm" @click="clickHandler('file', 'insert')">确认</div>
+                        <div @click="closePop('filePopShow')">Cancelar</div>
+                        <div
+                            class="confirm"
+                            @click="clickHandler('file', 'insert')"
+                        >
+                            Confirmar
+                        </div>
                     </div>
                 </div>
             </div>
-
         </template>
     </div>
 </template>
 <script>
-import { insertContentAtCaret } from '../../utils/insert'
-import { mapActions } from 'vuex'
+import { insertContentAtCaret } from '../../utils/'
+import { mapGetters, mapActions } from 'vuex'
 export default {
     data() {
         return {
@@ -146,25 +276,35 @@ export default {
             linkPopShow: false,
             imagePopShow: false,
             filePopShow: false,
-            fileName: '【附件】',
+            fileName: '[Accesorio]',
             fileUrl: '',
             imageName: '',
             imageUrl: '',
             linkName: '',
             linkUrl: '',
             imgIndex: 0
-
         }
     },
     props: {
         dom: {
             default: () => {}
         },
+        lang: {
+            type: String,
+            default: 'es-ES'
+        },
         customLeftToolbar: {
             type: Boolean,
             default: false
         }
     },
+    computed: {
+        ...mapGetters({
+            iconText: 'pfm/getIconText'
+        })
+
+    },
+
     methods: {
         clickHandler(icon, type) {
             if (type === 'menu') {
@@ -183,8 +323,7 @@ export default {
             } else {
             }
         },
-        menuHandler(icon) {
-        },
+        menuHandler(icon) {},
         popHandler(icon) {
             if (icon === 'link') {
                 this.linkPopShow = true
@@ -267,7 +406,8 @@ export default {
             this.setTextareaContent('') // clear content
             this.dom().focus() // focus
         },
-        ...mapActions({ setTextareaContent: 'markdownBody/setTextareaContent' })
+
+        ...mapActions({ setTextareaContent: 'pfm/setTextareaContent' })
     }
 }
 </script>

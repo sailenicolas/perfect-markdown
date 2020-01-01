@@ -1,6 +1,9 @@
-import iconConfig from './toolbar-icon'
+import store from '../store/index'
+import { toolbarIcon } from '../config/'
+// 初始化md
+const iconText = store.getters['pfm/getIconText']
 
-export function insertContentAtCaret(dom, icon, payload, $vue) {
+export default function insertContentAtCaret(dom, icon, payload, $vue) {
     switch (icon) {
         case 'file':
             fileInsert(dom, payload, $vue)
@@ -180,20 +183,20 @@ function imageInsert(dom, payload, $vue) {
 function txtInsert(dom, icon, payload, $vue) {
     const textArea = dom()
     textArea.focus()
-    let content = textArea.value // current value
+    let content = textArea.value // current value $vue.iconTextig[$vue.lang][
     if ('selectionStart' in textArea) {
         const start = textArea.selectionStart
         const end = textArea.selectionEnd
-        const prefix = iconConfig[icon].prefix
-        const subfix = iconConfig[icon].subfix
-        const prefixLen = iconConfig[icon].prefix.length
-        const subfixLen = iconConfig[icon].subfix.length
+        const prefix = toolbarIcon[icon].prefix
+        const subfix = toolbarIcon[icon].subfix
+        const prefixLen = toolbarIcon[icon].prefix.length
+        const subfixLen = toolbarIcon[icon].subfix.length
         let newStart = 0
         let newEnd = 0
         if (start === end) {
-            content = content.substring(0, start) + `${prefix}${iconConfig[icon].txt}${subfix}` + content.substring(end, content.length)
+            content = content.substring(0, start) + `${prefix}${iconText[$vue.lang][icon].txt}${subfix}` + content.substring(end, content.length)
             newStart = start + prefixLen
-            newEnd = newStart + iconConfig[icon].txt.length
+            newEnd = newStart + iconText[$vue.lang][icon].txt.length
         } else {
             if (content.substring(start - prefixLen, start) === prefix && content.substring(end, end + subfixLen) === subfix) {
                 // cancel
@@ -226,13 +229,13 @@ export function insertEnter(textArea, e, $vue) {
         let newEnd = 0
         let content = textArea.value
         // get cursor lastLine
-        let lastLine = content.substring(0, start).split('\n').pop()
-        let matchListNeedChangeLine = lastLine.match(/^\s*(?:[0-9]+\.|-)\s+\S+/)
+        const lastLine = content.substring(0, start).split('\n').pop()
+        const matchListNeedChangeLine = lastLine.match(/^\s*(?:[0-9]+\.|-)\s+\S+/)
         if (matchListNeedChangeLine) {
             // next li
             e.preventDefault()
             // eg: [1.  test] get [1. ]
-            let subfix = matchListNeedChangeLine.shift().match(/^\s*(?:[0-9]+\.|-)\s/).shift()
+            const subfix = matchListNeedChangeLine.shift().match(/^\s*(?:[0-9]+\.|-)\s/).shift()
             if (subfix.search(/-/) >= 0) {
                 // ul
                 content = content.substring(0, start) + '\n' + subfix + content.substring(end, content.length)
@@ -240,16 +243,16 @@ export function insertEnter(textArea, e, $vue) {
                 newEnd = start + subfix.length + 1
             } else {
                 // ol
-                let temp = subfix.replace(/(\d+)/, parseInt(subfix) + 1)
+                const temp = subfix.replace(/(\d+)/, parseInt(subfix) + 1)
                 content = content.substring(0, start) + '\n' + temp + content.substring(end, content.length)
                 newStart = start + temp.length + 1
                 newEnd = start + temp.length + 1
             }
         } else {
-            let matchListNeedRemoveLine = lastLine.match(/^\s*(?:[0-9]+\.|-)\s+$/)
+            const matchListNeedRemoveLine = lastLine.match(/^\s*(?:[0-9]+\.|-)\s+$/)
             if (matchListNeedRemoveLine) {
                 e.preventDefault()
-                let preLength = matchListNeedRemoveLine.shift().length
+                const preLength = matchListNeedRemoveLine.shift().length
                 content = content.substring(0, start - preLength) + '\n' + content.substring(end, content.length)
                 newStart = start - preLength
                 newEnd = start - preLength

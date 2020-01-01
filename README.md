@@ -11,6 +11,7 @@ perfect-markdown is a markdown editor based on Vue & markdown-it. The core is in
 
 ```
 $ npm install perfect-markdown --save
+$ yarn add perfect-markdown --save
 ```
 
 ### Usage
@@ -62,14 +63,20 @@ $ npm install perfect-markdown --save
 |  customLeftToolbar |   Boolean  |    false   |       |
 |  customRightToolbar |   Boolean  |    false   |       |
 |  imgWidthHeightAttr |   Object  |    {width: false, height: false}   | this is default output \[name](url), and all true will output \[name =WxH](url)      |
+|  imageClickHandler |   Object  |    Function   | Function on IMG tag click      |
+|  helpDoc |   String  | ''   |        |
+|  lang |   String  |    'es-ES'   | Language used in help and icons      |
 | ...          | ...      |   ...   | ....                                                       |
 
 #### upload img file
 
 ```html
+<template>
 <div>
     <pmd ref=md :uploadImgFn="imgFn" :uploadFileFn="fileFn"></pmd>
 </div>
+</template>
+<script>
 export default {
     methods: {
 
@@ -89,6 +96,7 @@ export default {
         }
     }
 }
+</script>
 ```
 
 ### slot
@@ -103,8 +111,6 @@ export default {
             :plugins="{mathjax: true}"
             :customLeftToolbar="false"
         >
-
-
             <template slot="toolbarLeftBefore"><span><i class="iconfont icon-clean"></i></span></template>
             <template slot="toolbarLeftAfter"><span><i class="iconfont icon-clean"></i></span></template>
             <template slot="toolbarRightBefore"><span><i class="iconfont icon-clean"></i></span></template>
@@ -122,19 +128,31 @@ export default {
         </pmd>
     </div
 </template>
+<script>
 import { mapActions, mapGetters } from 'vuex';
 export default {
     computed: {
         ...mapGetters({
-            editorIsSplit: 'markdownBody/getEditorIsSplit',
-            editorIsFullscrean: 'markdownBody/getEditorIsFullscrean',
-            textareaContent: 'markdownBody/getTextareaContent'
+            editorIsSplit: 'pfm/getEditorIsSplit',
+            editorIsFullscrean: 'pfm/getEditorIsFullscrean',
+            textareaContent: 'pfm/getTextareaContent',
+            iconText: 'pfm/getIconText',
+            MarkConfig: 'pfm/getMarkConfig',
+            help: 'pfm/getHelp',
         })
     },
     methods: {
-        ...mapActions({ setTextareaContent: 'markdownBody/setTextareaContent' })
+        ...mapActions({ 
+            setEditorIsSplit: 'pfm/setEditorIsSplit',
+            setEditorIsFullscrean: 'pfm/setEditorIsFullscrean',
+            setTextareaContent: 'pfm/setTextareaContent',
+            setIconText: 'pfm/setIconText',
+            setMarkConfig: 'pfm/setMarkConfig',
+            setHelp: 'pfm/setHelp',
+			 })
     }
 }
+</script>
 ```
 
 ## Changelog

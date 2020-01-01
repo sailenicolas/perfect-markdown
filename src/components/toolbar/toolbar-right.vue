@@ -4,21 +4,21 @@
         </template>
         <template v-else>
             <slot name="toolbarRightBefore"></slot>
-            <span @click="clickHandler('split')" v-tooltip.top-center="'分屏切换'" :class="[iconActive.split? 'selected' : '']">
+            <span @click="clickHandler('split')" v-tooltip.top-center="'Pantalla dividida'" :class="[iconActive.split? 'selected' : '']">
                 <i class="iconfont icon-split" ></i>
             </span>
-            <span @click="clickHandler('fullscreen')" v-tooltip.top-center="'全屏切换'">
+            <span @click="clickHandler('fullscreen')" v-tooltip.top-center="'Pantalla completa'">
                 <i :class="[iconActive.fullscreen? 'icon-exit': 'icon-expand', 'iconfont' ]"></i>
             </span>
-            <span class="import" v-tooltip.top-center="'导入md'">
+            <span class="import" v-tooltip.top-center="'Importar MarkDown'">
                 <i class="iconfont icon-import"></i>
                 <input type="file" accept="text/markdown" @change="e => addMDFromLocal(e)">
             </span>
-            <span class="export" @click="exportMd" v-tooltip.top-center="'导出md'">
+            <span class="export" @click="exportMd" v-tooltip.top-center="'Exportar MarkDown'">
                 <i class="iconfont icon-export"></i>
             </span>
-            <span @click="print" v-tooltip.top-center="'打印'"><i class="iconfont icon-print"></i></span>
-            <span @click="help"  v-tooltip.top-center="'帮助'"><i class="iconfont icon-help"></i></span>
+            <span @click="print" v-tooltip.top-center="'Imprimir'"><i class="iconfont icon-print"></i></span>
+            <span @click="help"  v-tooltip.top-center="'Ayuda'"><i class="iconfont icon-help"></i></span>
             <slot name="toolbarRightAfter"></slot>
 
             <div
@@ -33,8 +33,7 @@
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import md from '../../utils/md'
-import help from '../../config/help'
+import { md } from '../../utils/'
 export default {
     data() {
         return {
@@ -54,16 +53,24 @@ export default {
             type: String,
             default: ''
         },
+        lang: {
+            type: String,
+            default: 'es-ES'
+        },
         customRightToolbar: {
             type: Boolean,
             default: false
         }
     },
     created() {
-        this.helpMD = md.render(help['zh-CN'])
+        this.helpMD = md.render(this.ghelp[this.lang])
     },
     computed: {
-        ...mapGetters({ currentMD: 'markdownBody/getTextareaContent' })
+        ...mapGetters({
+            currentMD: 'pfm/getTextareaContent',
+            iconText: 'pfm/getIconText',
+            ghelp: 'pfm/getHelp'
+        })
     },
     methods: {
         clickHandler(icon) {
@@ -76,9 +83,9 @@ export default {
             }
         },
         ...mapActions({
-            setEditorSplitType: 'markdownBody/setEditorSplitType',
-            setEditorFullscreenType: 'markdownBody/setEditorFullscreenType',
-            setTextareaContent: 'markdownBody/setTextareaContent'
+            setEditorSplitType: 'pfm/setEditorSplitType',
+            setEditorFullscreenType: 'pfm/setEditorFullscreenType',
+            setTextareaContent: 'pfm/setTextareaContent'
         }),
         addMDFromLocal(e) {
             const file = e.target.files[0]
@@ -92,9 +99,9 @@ export default {
         },
         exportMd() {
             const md = this.currentMD
-            let downloadLink = document.createElement('a')
+            const downloadLink = document.createElement('a')
             downloadLink.setAttribute('href', 'data:text/plain;charset=UTF-8,' + encodeURIComponent(md))
-            downloadLink.setAttribute('download', '未命名.md')
+            downloadLink.setAttribute('download', 'SinTitulo.md')
             downloadLink.style.display = 'none'
             if (document.createEvent) {
                 var event = document.createEvent('MouseEvents')

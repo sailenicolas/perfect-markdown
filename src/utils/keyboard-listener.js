@@ -4,14 +4,14 @@ const KEYS = {
     TAB: 9
 }
 
-export function keyboardListener(el, $vue) {
+export default function keyboardListener(el, $vue) {
     el.addEventListener('keydown', (e) => {
         if (!(e.ctrlKey || e.metaKey) && !e.altKey && !e.shiftKey) {
             switch (e.keyCode) {
-                case KEYS['ENTER']:
+                case KEYS.ENTER:
                     insertEnter(el, e, $vue)
                     break
-                case KEYS['TAB']:
+                case KEYS.TAB:
                     insertTab(el, e, $vue)
                     e.preventDefault()
                     break
@@ -23,7 +23,7 @@ export function keyboardListener(el, $vue) {
         } else if (!(e.ctrlKey || e.metaKey) && e.shiftKey && !e.altKey) {
             // shift +
             switch (e.keyCode) {
-                case KEYS['TAB']:
+                case KEYS.TAB:
                     unInsertTab(el, e, $vue)
                     e.preventDefault()
                     break

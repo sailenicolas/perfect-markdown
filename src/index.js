@@ -3,13 +3,13 @@
  */
 import editor from './views/editor'
 import markdownIt from './utils/md'
-import markdownBody from './store/modules/markdownBody'
+import pfm from './store/modules/pfm'
 const pmdEditor = {
     markdownIt: markdownIt,
     editor: editor,
     install: function (Vue, options = {}) {
         Vue.component('pmd', editor)
-        options.store && options.store.registerModule('markdownBody', markdownBody)
+        options.store && options.store.registerModule('pfm', pfm)
     }
 }
 

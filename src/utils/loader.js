@@ -6,7 +6,7 @@
  *
  */
 
-let loader = {
+const loader = {
     error: function (msg) {
         throw new Error(msg)
     },
@@ -16,11 +16,19 @@ let loader = {
 
 const doc = window.document
 
-const types = ['Array', 'Function', 'Object', 'String', 'Number', 'Boolean', 'Date']
+const types = [
+    'Array',
+    'Function',
+    'Object',
+    'String',
+    'Number',
+    'Boolean',
+    'Date'
+]
 const nativeForEach = types.forEach
-const emptyFunc = function () { }
+const emptyFunc = function () {}
 const head = doc.head || doc.getElementsByTagName('head')[0]
-let hash = {}
+const hash = {}
 
 function forEach(obj, iterator, context) {
     if (obj == null) return
@@ -45,7 +53,7 @@ forEach(types, function (name) {
 })
 
 function createEl(type, attrs) {
-    let el = doc.createElement(type)
+    const el = doc.createElement(type)
     let attr
     for (attr in attrs) {
         el.setAttribute(attr, attrs[attr])
@@ -74,13 +82,13 @@ function load(type, urls, option, callback) {
         scope: option.scope || window,
         callback: callback || emptyFunc
     }
-    let list = [].concat(urls)
+    const list = [].concat(urls)
     const charset = option.charset || 'utf-8'
 
     forEach(urls, function (url, i) {
         let el = null
         if (hash[url]) {
-            console.warn('warning: ' + url + ' has loaded.')
+            console.warn('warning: ' + url + i + ' has loaded.')
         }
 
         if (type === 'js') {
@@ -116,7 +124,7 @@ function load(type, urls, option, callback) {
                         }, 200)
                     }
                     el.onerror = function () {
-                        loader.error(url + ' 不存在')
+                        loader.error(url + ' No existe')
                     }
                 } else {
                     setTimeout(function () {

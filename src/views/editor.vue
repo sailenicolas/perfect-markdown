@@ -6,6 +6,7 @@
 
             <toolbar-left
                 class="left"
+                ref="tleft"
                 @addImg="addImg"
                 @addFile="addFile"
                 :dom="getTextarea"
@@ -16,8 +17,10 @@
             </toolbar-left>
             <toolbar-right
                 class="right"
+                ref="tright"
                 :dom="getRenderHtml"
                 :helpDoc="helpDoc"
+                :lang="lang"
                 :customLeftToolbar="customLeftToolbar"
             >
                 <slot name="toolbarRightBefore" slot="toolbarRightBefore"></slot>
@@ -48,7 +51,7 @@
                     <div class="img-box" >
                         <img
                             :src="imgPreviewSrc"
-                            alt="预览"
+                            alt="Vista previa"
                             :style="{
                                 height: `${imgHeight}`
                             }"/>
@@ -72,17 +75,22 @@
     </div>
 </template>
 <script>
-
+import '../assets/fonts/iconfont.css'
+import '../assets/less/tooltip.less'
+import '../assets/less/github-markdown.css'
 import ToolbarLeft from '../components/toolbar/toolbar-left'
 import ToolbarRight from '../components/toolbar/toolbar-right'
 import AutoTextarea from '../components/auto-textarea'
 import { mapGetters, mapActions } from 'vuex'
-import { keyboardListener } from '../utils/keyboard-listener'
-import { insertContentAtCaret } from '../utils/insert'
-import loader from '../utils/loader'
-import external from '../config/external'
-import md from '../utils/md'
-import { scrollLink } from '../utils/scroll'
+import { keyboardListener, loader, insertContentAtCaret, md, scrollLink } from '../utils/'
+import { external } from '../config/'
+// 注册指令和组件
+import { VTooltip, VPopover, VClosePopover } from 'v-tooltip'
+import Vue from 'vue'
+Vue.directive('tooltip', VTooltip)
+Vue.directive('close-popover', VClosePopover)
+Vue.component('v-popover', VPopover)
+
 export default {
     name: 'editor',
     data() {
@@ -93,6 +101,10 @@ export default {
         }
     },
     props: {
+        lang: {
+            type: String,
+            default: 'es-ES'
+        },
         uploadFileFn: {
             type: Function,
             default: () => new Promise((resolve, reject) => {
@@ -173,8 +185,8 @@ export default {
                     extensions: ['tex2jax.js'],
                     jax: ['input/TeX', 'output/HTML-CSS'],
                     tex2jax: {
-                        inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
-                        displayMath: [ ['$$', '$$'], ['\\[', '\\]'] ],
+                        inlineMath: [['$', '$'], ['\\(', '\\)']],
+                        displayMath: [['$$', '$$'], ['\\[', '\\]']],
                         processEscapes: true
                     },
                     'HTML-CSS': { fonts: ['TeX'] }
@@ -184,9 +196,10 @@ export default {
     },
     computed: {
         ...mapGetters({
-            editorIsSplit: 'markdownBody/getEditorIsSplit',
-            editorIsFullscrean: 'markdownBody/getEditorIsFullscrean',
-            textareaContent: 'markdownBody/getTextareaContent'
+            editorIsSplit: 'pfm/getEditorIsSplit',
+            editorIsFullscrean: 'pfm/getEditorIsFullscrean',
+            textareaContent: 'pfm/getTextareaContent',
+            iconText: 'pfm/getIconText'
         }),
         renderValue() {
             return this.render(this.textareaContent)
@@ -202,22 +215,22 @@ export default {
         }
     },
     methods: {
-        ...mapActions({ setTextareaContent: 'markdownBody/setTextareaContent' }),
+        ...mapActions({ setTextareaContent: 'pfm/setTextareaContent' }),
         getTextarea() {
-            if (this.$refs['autoTextarea']) {
-                return this.$refs['autoTextarea'].$refs['textarea']
+            if (this.$refs.autoTextarea) {
+                return this.$refs.autoTextarea.$refs.textarea
             }
         },
         getRenderHtml() {
-            if (this.$refs['renderHtml']) {
-                return this.$refs['renderHtml']
+            if (this.$refs.renderHtml) {
+                return this.$refs.renderHtml
             }
         },
         async addImg(index, file, multiple) {
             const ret = await this.uploadImgFn(file)
             // width height
             let wh = {}
-            let payload = { name: file.name }
+            const payload = { name: file.name }
             if (this.imgWidthHeightAttr.width || this.imgWidthHeightAttr.height) {
                 wh = await this.getWH(file)
                 this.imgWidthHeightAttr.width && (payload.width = wh.width)
@@ -271,9 +284,9 @@ export default {
                 }, 200)
                 // todos: split transform the code latex => mathajx
                 result = val.replace(/\${1,2}[\s\S]*(\\\\)[\s\S]*\${1,2}/g, (match) => {
-                    return match.replace(/\\\\/g, `\\cr`)
+                    return match.replace(/\\\\/g, '\\cr')
                 }).replace(/\${1,2}[\s\S]*_[\s\S]*\${1,2}/g, (match) => { // em conflict
-                    return match.replace(/_/g, `\\_`) // bow to markdown
+                    return match.replace(/_/g, '\\_') // bow to markdown
                 })
             }
             return md.render(result)
@@ -299,13 +312,13 @@ export default {
             return false
         },
         zoomIn() {
-            let width = +this.imgHeight.split('%')[0]
-            let result = width - this.zoomStep > 0 ? width - this.zoomStep : 0
+            const width = +this.imgHeight.split('%')[0]
+            const result = width - this.zoomStep > 0 ? width - this.zoomStep : 0
             this.imgHeight = `${result}%`
         },
         zoomOut() {
-            let width = +this.imgHeight.split('%')[0]
-            let result = width + this.zoomStep > 0 ? width + this.zoomStep : 0
+            const width = +this.imgHeight.split('%')[0]
+            const result = width + this.zoomStep > 0 ? width + this.zoomStep : 0
             this.imgHeight = `${result}%`
         },
         editOnScroll(e) {

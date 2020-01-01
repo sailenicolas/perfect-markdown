@@ -1,8 +1,8 @@
 /**
  * 滚动条联动
  */
-export function scrollLink(e, vue) {
-    let element = e.srcElement ? e.srcElement : e.target
+export default function scrollLink(e, vue) {
+    const element = e.srcElement ? e.srcElement : e.target
     let ratio = element.scrollTop / (element.scrollHeight - element.offsetHeight)
     if (vue.edit_scroll_height >= 0 && element.scrollHeight !== vue.edit_scroll_height && (element.scrollHeight - element.offsetHeight - element.scrollTop <= 30)) {
         // 内容变化 导致 高度增加  且滚动条距离底部小于25px  自动滚动到底部

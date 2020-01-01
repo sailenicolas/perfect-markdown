@@ -28,7 +28,7 @@ export default {
         },
         placeholder: {
             type: String,
-            default: '请输入'
+            default: 'Por favor ingrese'
         }
     },
     methods: {
