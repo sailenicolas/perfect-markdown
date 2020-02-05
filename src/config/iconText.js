@@ -1,4 +1,4 @@
-const IconText = {
+const iconText = {
     'es-ES': {
         bold: {
             txt: 'Negrita'
